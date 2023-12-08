@@ -1,0 +1,5 @@
+# Ignore all files from the data folder
+data/
+postgres_container/
+.env
+init_data_postgres/config/db_config.json
