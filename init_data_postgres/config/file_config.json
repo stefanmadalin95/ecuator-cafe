@@ -1,0 +1,14 @@
+{
+    "clients": {
+        "excel": "data/Clienti.xlsx",
+        "mapping": "init_data_postgres/config/clients_column_mapping.json"
+    },
+    "products": {
+        "excel": "data/Produse.xlsx",
+        "mapping": "init_data_postgres/config/products_column_mapping.json"
+    },
+    "orders": {
+        "excel": "data/Comenzi.xlsx",
+        "mapping": "init_data_postgres/config/orders_column_mapping.json"
+    }
+}
