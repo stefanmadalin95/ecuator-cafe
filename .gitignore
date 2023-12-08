@@ -3,3 +3,4 @@ data/
 postgres_container/
 .env
 init_data_postgres/config/db_config.json
+init_data_postgres/__pycache__
