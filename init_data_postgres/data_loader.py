@@ -2,6 +2,15 @@ import pandas as pd
 import logging
 import json
 
+# Set up logging to output to a file
+logging.basicConfig(
+    filename="app.log",
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s: %(message)s",
+    datefmt="%m/%d/%Y %I:%M:%S %p",
+)
+
+
 class DataLoader:
     def __init__(self, engine, excel_file_path, column_mapping_path):
         self.engine = engine
@@ -13,27 +22,25 @@ class DataLoader:
         logging.info("Excel file '%s' loaded successfully.", self.excel_file_path)
 
     def apply_column_transformation(self):
-        with open(self.column_mapping_path, 'r') as f:
+        with open(self.column_mapping_path, "r") as f:
             column_translation = json.load(f)
         self.df.rename(columns=column_translation, inplace=True)
         logging.info("Column transformations applied successfully.")
 
     def clean_data(self):
-        # You may want to generalize this method depending on your cleaning requirements
-        self.df["last_order_date"] = self.df["last_order_date"].replace("0", pd.NaT)
-        self.df["registration_date"] = self.df["registration_date"].replace("0000-00-00", pd.NaT)
-        self.df["newsletter_subscription"] = self.df["newsletter_subscription"].astype(bool)
-        self.df["active_client"] = self.df["active_client"].astype(bool)
+        pass
 
-    def to_sql(self, table_name, schema):
+    def load_data(self, table_name, schema):
         try:
             self.df.to_sql(
                 table_name,
                 self.engine,
                 schema=schema,
-                if_exists="append",
+                if_exists="replace",
                 index=False,
             )
-            logging.info("Data successfully loaded into the database.")
+            logging.info(
+                f"Data for table {table_name} successfully loaded into the database."
+            )
         except Exception as e:
             logging.error("An error occurred while inserting into the database: %s", e)
